@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CO₂ Flight Calculator (offline, myclimate-inspired)</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    body { margin: 24px; max-width: 980px; }
+    h1 { margin: 0 0 8px; font-size: 22px; }
+    .muted { color: #555; font-size: 13px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+    .row { display: grid; gap: 6px; }
+    label { font-size: 13px; color: #222; }
+    input, select, button { padding: 10px; font-size: 14px; }
+    button { cursor: pointer; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 12px; margin-top: 14px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 12px; white-space: pre-wrap; }
+    .suggest { position: relative; }
+    .suggestbox {
+      position: absolute; z-index: 10; left: 0; right: 0; top: calc(100% + 4px);
+      border: 1px solid #ddd; border-radius: 10px; background: #fff; overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+    .suggestitem { padding: 10px; border-bottom: 1px solid #eee; cursor: pointer; }
+    .suggestitem:last-child { border-bottom: none; }
+    .suggestitem:hover { background: #f6f6f6; }
+    .pill { display: inline-block; padding: 2px 8px; border: 1px solid #ddd; border-radius: 999px; font-size: 12px; margin-left: 8px; color: #333; }
+    .topbar { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+    .right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .smallbtn { padding: 8px 10px; font-size: 13px; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div>
+      <h1>CO₂ Flight Calculator (offline)</h1>
+      <div class="muted">
+        Vanilla JS, no build. Model: simplified myclimate-inspired (ported from Python).
+      </div>
+    </div>
+    <div class="right">
+      <span id="airportsStatus" class="pill">airports: not loaded</span>
+      <button id="runTestsBtn" class="smallbtn hidden" type="button">Run test cases</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="row suggest">
+      <label for="origin">Origin (IATA)</label>
+      <input id="origin" autocomplete="off" placeholder="e.g. SOF" />
+      <div id="originSuggest" class="suggestbox hidden"></div>
+    </div>
+
+    <div class="row suggest">
+      <label for="destination">Destination (IATA)</label>
+      <input id="destination" autocomplete="off" placeholder="e.g. VAR" />
+      <div id="destinationSuggest" class="suggestbox hidden"></div>
+    </div>
+
+    <div class="row">
+      <label for="cabin">Cabin</label>
+      <select id="cabin">
+        <option value="economy">Economy</option>
+        <option value="business">Business</option>
+        <option value="first">First</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="pax">Passengers</label>
+      <input id="pax" type="number" min="1" step="1" value="1" />
+    </div>
+
+    <div class="row">
+      <label>Round trip</label>
+      <label style="display:flex; gap:8px; align-items:center;">
+        <input id="roundtrip" type="checkbox" />
+        Return included
+      </label>
+    </div>
+
+    <div class="row">
+      <label>&nbsp;</label>
+      <button id="calcBtn" type="button">Calculate</button>
+    </div>
+  </div>
+
+  <div id="result" class="card hidden"></div>
+
+  <div class="card">
+    <div class="muted">
+      Offline start (recommended): from project root run
+      <span class="mono">python -m http.server 8000</span>
+      then open <span class="mono">http://127.0.0.1:8000/co2calc_web/</span>
+    </div>
+  </div>
+
+  <script src="./js/calc.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>
