@@ -44,17 +44,14 @@
   </div>
 
   <div class="grid">
-    <div class="row suggest">
-      <label for="origin">Origin (IATA)</label>
-      <input id="origin" autocomplete="off" placeholder="e.g. SOF" />
-      <div id="originSuggest" class="suggestbox hidden"></div>
-    </div>
-
-    <div class="row suggest">
-      <label for="destination">Destination (IATA)</label>
-      <input id="destination" autocomplete="off" placeholder="e.g. VAR" />
-      <div id="destinationSuggest" class="suggestbox hidden"></div>
-    </div>
+    <div class="row" style="grid-column: 1 / -1;">
+  <label>Route (segments)</label>
+  <div id="segments"></div>
+  <div style="display:flex; gap:10px; margin-top:8px; flex-wrap:wrap;">
+    <button id="addSegmentBtn" class="smallbtn" type="button">Add segment</button>
+    <span class="muted">Example: SOF → VIE → LHR (two segments)</span>
+  </div>
+</div>
 
     <div class="row">
       <label for="cabin">Cabin</label>
@@ -91,5 +88,6 @@
 </body>
 
 </html>
+
 
 
